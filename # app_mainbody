@@ -1,0 +1,62 @@
+
+# main program
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+import filesearch
+
+class Desktopapp(App):
+
+
+    def build(self):
+      self.window=GridLayout()
+      self.window.cols=2
+
+    #first widget path
+      self.path=TextInput(multiline=False,padding_y=(20,20),size_hint=(0.2,0.2),font_size=20,background_color='00FFCE')
+
+      self.window.add_widget(self.path)
+
+
+       #second widget search
+      self.button1=Button(text="search",size_hint=(0.2,0.2),font_size=20,padding_y=(20,20))
+      self.button1.bind(on_press=self.submit_path)
+      self.window.add_widget(self.button1)
+
+      #third widget search
+      self.final_result=Label(text="search result",font_size=10, color='#00FFCE',padding_y=(20,20))
+      self.window.add_widget(self.final_result)
+
+
+      #fourth widget  combine pdf
+
+      self.button=Button(text="combine pdf",size_hint=(0.2,0.2),font_size=20)
+      self.button.bind(on_press=self.pdf_merge)
+      self.button.bind(on_release=self.pdf_merge)
+      self.window.add_widget(self.button)
+
+
+      return self.window
+
+    def pdf_merge(self,instances):
+        path = self.path.text
+        filename=filesearch.pdf_merge(path)
+
+        print(filename)
+
+
+    def submit_path(self,instances):
+        path=self.path.text
+        print(path)
+        self.search_result=filesearch.search(path)
+        self.final_result1=""
+        for i in self.search_result:
+            self.final_result1=self.final_result1+i+"\n"
+
+        self.final_result.text=self.final_result1
+
+
+Desktopapp().run()
+
