@@ -1,0 +1,25 @@
+# python_kivy
+## enter path: search for all available files and merge pdf files
+import os
+from PyPDF2 import PdfFileMerger
+
+
+def search(path):
+    path = path
+    os.chdir(path)
+    l = os.listdir()
+
+    return l
+
+
+def pdf_merge(path):
+    os.chdir(path)
+    x = [a for a in os.listdir() if ".pdf" in a]
+    merger = PdfFileMerger()
+    for m in x:
+        merger.append(open(m, 'rb'))
+
+    file_name="New_Merged_File2232.pdf"
+    merger.write(file_name)
+    return file_name
+
